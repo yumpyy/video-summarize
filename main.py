@@ -1,22 +1,10 @@
-import re
+import utils
 
-pattern_list = [
-    "[0-9]{2}:[0-9]{2}:[0-9]{2},[0-9]{3} --> [0-9]{2}:[0-9]{2}:[0-9]{2},[0-9]{3}",  # for matching 00:00:00,000 --> 00:00:39,410
-    "[0-9]{1,10}",                                                                  # for matching lines starting with numbers
-]
+def main():
+    with open("./transcript-back.en.srt") as f:
+        data = f.read()
+        filtered_data = utils.filter(data)
+        print(filtered_data)
 
-def filter(data):
-    data = re.sub("|".join(pattern_list), "", data)
-
-    filtered_data = []
-    for line in data.split('\n'):
-        if line.strip():
-            filtered_data.append(line)
-    
-    filtered_data = " ".join(filtered_data)
-    return filtered_data
-
-with open("./transcript-back.en.srt") as f:
-    data = f.read()
-    filtered_data = filter(data)
-    print(filtered_data)
+if __name__ == "__main__":
+    main()
