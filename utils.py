@@ -1,11 +1,14 @@
 import re
+import os
 
-pattern_list = [
-    "[0-9]{2}:[0-9]{2}:[0-9]{2},[0-9]{3} --> [0-9]{2}:[0-9]{2}:[0-9]{2},[0-9]{3}",  # for matching 00:00:00,000 --> 00:00:39,410
-    "[0-9]{1,10}",                                                                  # for matching lines starting with numbers
-]
+import yt_dlp
+from ffmpeg import FFmpeg
 
-def filter(data):
+def filter_transcript(data):
+    pattern_list = [
+        "[0-9]{2}:[0-9]{2}:[0-9]{2},[0-9]{3} --> [0-9]{2}:[0-9]{2}:[0-9]{2},[0-9]{3}",  # for matching 00:00:00,000 --> 00:00:39,410
+        "[0-9]{1,10}",                                                                  # for matching lines starting with numbers
+    ]
     data = re.sub("|".join(pattern_list), "", data)
 
     filtered_data = []
@@ -16,3 +19,30 @@ def filter(data):
     filtered_data = " ".join(filtered_data)
     return filtered_data
 
+def convert_sub():
+    for file in os.listdir("./"):
+        if file.endswith(".vtt"):
+            output_file = f"{os.path.splitext(file)[0]}.srt"    # .splitext()[0] is used to get file name
+
+            ffmpeg = (
+                FFmpeg()
+                .input(file)
+                .output(output_file)
+            )
+            ffmpeg.execute()
+
+            return
+
+    print("Transcript file not found in current directory.")
+    exit(1)
+        
+def extract_transcript(url):
+    ytdlp_options = {
+        'skip_download': True,
+        'writeautomaticsub': True,
+        'subtitlesformat': 'srt',
+        'outtmpl': 'transcript.%(ext)s'
+    }
+
+    with yt_dlp.YoutubeDL(ytdlp_options) as yt:
+        yt.download(url)
