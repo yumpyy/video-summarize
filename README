@@ -9,13 +9,14 @@ requirements
 python-ffmpeg   https://pypi.org/project/python-ffmpeg/
 yt_dlp          https://pypi.org/project/yt-dlp/
 
+install
+-------
+
+python -m venv venv
+source ./venv/bin/activate
+pip install -r requirements.txt
+
 usage
 -----
 
-python main.py
-
-todo
-----
-
-- [ ] ability to use openAI api for summarization
-- [ ] support for peertube
+python main.py [options] link
