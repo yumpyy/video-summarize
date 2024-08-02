@@ -1,0 +1,2 @@
+python-ffmpeg
+yt_dlp
