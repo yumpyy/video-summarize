@@ -23,6 +23,19 @@ def convert_sub():
     for file in os.listdir("./"):
         if file.endswith(".vtt"):
             output_file = f"{os.path.splitext(file)[0]}.srt"    # .splitext()[0] is used to get file name
+            
+            """
+            if output file with same name already exists, the program gets stuck.
+            added this conditional statment to remove any file with same name before proceeding.
+            """
+            if os.path.isfile(output_file):
+                choice = input(f"\'{output_file}\' already exists. Delete it? [y/N] : ")
+                if choice == "y":
+                    os.remove(output_file)
+                    print("Removing existing file \'{output_file}\'")
+                else:
+                    print(f"Not removing \'{output_file}\', Exiting..'")
+                    exit(1)
 
             ffmpeg = (
                 FFmpeg()
