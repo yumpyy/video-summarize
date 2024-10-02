@@ -42,9 +42,9 @@ def convert_sub():
                 choice = input(f"\'{output_file}\' already exists. Delete it? [y/N] : ")
                 if choice == "y":
                     os.remove(output_file)
-                    print(f"Removing existing file \'{output_file}\'")
+                    print(f"removing existing file \'{output_file}\'")
                 else:
-                    print(f"Not removing \'{output_file}\', Exiting..'")
+                    print(f"not removing \'{output_file}\', exiting..'")
                     exit(1)
 
             ffmpeg = (
@@ -56,7 +56,7 @@ def convert_sub():
 
             return
 
-    print("Transcript file not found in current directory.")
+    print("transcript file not found in current directory.")
     sys.exit()
 
 def extract_transcript(url):
