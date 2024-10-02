@@ -10,23 +10,26 @@ def main():
 
     parser.add_argument('link', help='youtube link for summarizing')
     parser.add_argument('-o', '--output', help='write output to a file')
+    parser.add_argument('-t', '--transcript_file', help='write transcript to a file')
+    parser.add_argument('-m', '--model', help='ollama model to use. defaults to phi:2b', default='gemma:2b')
+    parser.add_argument('-c', '--character_limit', help='custom character limit for models. defaults to 16000', default=16000)
 
     args = parser.parse_args()
 
     url = args.link
     utils.extract_transcript(url)
-    utils.convert_sub()
 
     with open("./transcript.en.srt") as f:
         data = f.read()
         filtered_data = utils.filter_transcript(data)
 
+        if args.transcript_file:
+            utils.write_to_file(args.output, filtered_data)
+
+        summary = utils.summarize_text(filtered_data, args.model, args.character_limit)
         if args.output:
-            with open(args.output, "w") as w:
-                w.write(filtered_data)
-                print(f"Writing output to \'{args.output}\'")
-                sys.exit()
-        print(filtered_data)
+            utils.write_to_file(args.output, summary)
+        print(summary)
 
 if __name__ == "__main__":
     main()

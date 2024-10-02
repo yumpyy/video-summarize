@@ -4,6 +4,12 @@ import sys
 
 import yt_dlp
 from ffmpeg import FFmpeg
+import ollama
+
+def write_to_file(file:str, content:str) -> None:
+    with open(file, 'w') as w:
+        writer = w.write(content)
+        print(f"writing to '{writer}'")
 
 def filter_transcript(data):
     pattern_list = [
@@ -63,3 +69,43 @@ def extract_transcript(url):
 
     with yt_dlp.YoutubeDL(ytdlp_options) as yt:
         yt.download(url)
+
+    convert_sub()
+
+def summarize_text(transcript:str, model:str, char_limit:int) -> str:
+    if len(transcript) == 0:
+        print("transcript is empty. Exiting..")
+        sys.exit()
+
+    transcript_list = []
+    if len(transcript) > char_limit:
+        for i in range(0, len(transcript), char_limit):
+            transcript_list.append(transcript[i:i + char_limit])
+    else:
+        transcript_list.append(transcript)
+
+    ollama.pull(model)
+
+    summary = []
+    for trans in transcript_list:
+        try:
+            response = ollama.chat(
+                model=model,
+                messages=[
+                    {
+                        'role': 'system', 
+                        'content': 'you summarize transcripts in clear and precise points wihtout missing out any information',
+                    },
+                    {
+                        'role': 'user',
+                        'content': trans,
+                    },
+                ],
+                stream=False,
+            )
+            summary.append(response)
+        except ollama.ResponseError as e:
+            print(f"failed to summarize the transcript: {e}")
+
+    summary = '\n'.join(summary)
+    return summary
