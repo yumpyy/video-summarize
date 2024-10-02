@@ -1,15 +1,19 @@
+#!/usr/bin/env python
+
 import argparse
+import sys
 
 import utils
 
-parser = argparse.ArgumentParser(prog='video-summarize', description='summarize youtube videos using llm')
+def main():
+    parser = argparse.ArgumentParser(prog='video-summarize', description='summarize youtube videos using llm')
 
-parser.add_argument('link', help='youtube link for summarizing')
-parser.add_argument('-o', '--output', help='write output to a file')
+    parser.add_argument('link', help='youtube link for summarizing')
+    parser.add_argument('-o', '--output', help='write output to a file')
 
-args = parser.parse_args()
+    args = parser.parse_args()
 
-def main(url):
+    url = args.link
     utils.extract_transcript(url)
     utils.convert_sub()
 
@@ -18,11 +22,11 @@ def main(url):
         filtered_data = utils.filter_transcript(data)
 
         if args.output:
-            with open(args.output, "w") as f:
-                f.write(filtered_data)
+            with open(args.output, "w") as w:
+                w.write(filtered_data)
                 print(f"Writing output to \'{args.output}\'")
-                exit(1)
+                sys.exit()
         print(filtered_data)
 
 if __name__ == "__main__":
-    main(args.link)
+    main()

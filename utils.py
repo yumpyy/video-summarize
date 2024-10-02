@@ -7,7 +7,7 @@ from ffmpeg import FFmpeg
 def filter_transcript(data):
     pattern_list = [
         "[0-9]{2}:[0-9]{2}:[0-9]{2},[0-9]{3} --> [0-9]{2}:[0-9]{2}:[0-9]{2},[0-9]{3}",  # for matching 00:00:00,000 --> 00:00:39,410
-        "^[0-9]{1,10}",                                                                  # for matching lines starting with numbers
+        "^[0-9]{1,10}",                                                                 # for matching lines starting with numbers
     ]
 
     filtered_data = [""]
