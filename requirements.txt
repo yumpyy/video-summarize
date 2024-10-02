@@ -1,2 +1,3 @@
 python-ffmpeg
 yt_dlp
+ollama
