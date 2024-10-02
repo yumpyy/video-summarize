@@ -1,5 +1,6 @@
 import re
 import os
+import sys
 
 import yt_dlp
 from ffmpeg import FFmpeg
@@ -35,7 +36,7 @@ def convert_sub():
                 choice = input(f"\'{output_file}\' already exists. Delete it? [y/N] : ")
                 if choice == "y":
                     os.remove(output_file)
-                    print("Removing existing file \'{output_file}\'")
+                    print(f"Removing existing file \'{output_file}\'")
                 else:
                     print(f"Not removing \'{output_file}\', Exiting..'")
                     exit(1)
@@ -50,8 +51,8 @@ def convert_sub():
             return
 
     print("Transcript file not found in current directory.")
-    exit(1)
-        
+    sys.exit()
+
 def extract_transcript(url):
     ytdlp_options = {
         'skip_download': True,
