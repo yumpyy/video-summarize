@@ -7,6 +7,7 @@ requirements
 ------------
 - [python-ffmpeg](https://pypi.org/project/python-ffmpeg/)
 - [yt_dlp](https://pypi.org/project/yt-dlp/)
+- [ollama](https://pypi.org/project/ollama/)
 
 install
 -------
