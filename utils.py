@@ -84,10 +84,9 @@ def summarize_text(transcript:str, model:str, char_limit:int) -> str:
     else:
         transcript_list.append(transcript)
 
-    ollama.pull(model)
-
     summary = []
     for trans in transcript_list:
+        print('Generating summary now...')
         try:
             response = ollama.chat(
                 model=model,
@@ -103,7 +102,7 @@ def summarize_text(transcript:str, model:str, char_limit:int) -> str:
                 ],
                 stream=False,
             )
-            summary.append(response)
+            summary.append(response['message']['content'])
         except ollama.ResponseError as e:
             print(f"failed to summarize the transcript: {e}")
 

@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 import argparse
 import sys
 
@@ -11,8 +9,9 @@ def main():
     parser.add_argument('link', help='youtube link for summarizing')
     parser.add_argument('-o', '--output', help='write output to a file')
     parser.add_argument('-t', '--transcript_file', help='write transcript to a file')
-    parser.add_argument('-m', '--model', help='ollama model to use. defaults to phi:2b', default='gemma:2b')
+    parser.add_argument('-m', '--model', help='ollama model to use. defaults to gemma2:2b', default='gemma2:2b')
     parser.add_argument('-c', '--character_limit', help='custom character limit for models. defaults to 16000', default=16000)
+    # parser.add_argument('-H', '--host', help='address of ollama api service', required=True)
 
     args = parser.parse_args()
 
